@@ -2,23 +2,22 @@
 //  ContentView.swift
 //  supabase-swiftui-starter
 //
-//  Created by Nicolò Curioni on 27/02/26.
+//  Created by Nicolo Curioni
+//  Founder of withnico.com and codico.org
 //
 
 import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
-    }
-}
+        TabView {
+            Tab("News", systemImage: "newspaper") {
+                ArticleListView()
+            }
 
-#Preview {
-    ContentView()
+            Tab("Profile", systemImage: "person.circle") {
+                ProfileView()
+            }
+        }
+    }
 }

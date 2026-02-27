@@ -1,14 +1,15 @@
 //
-//  supabase_swiftui_starterApp.swift
+//  SupabaseStarterApp.swift
 //  supabase-swiftui-starter
 //
-//  Created by Nicolò Curioni on 27/02/26.
+//  Created by Nicolo Curioni
+//  Founder of withnico.com and codico.org
 //
 
 import SwiftUI
 
 @main
-struct supabase_swiftui_starterApp: App {
+struct SupabaseStarterApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
