@@ -1,6 +1,6 @@
 # Supabase SwiftUI Starter
 
-A minimal iOS 26 starter project demonstrating **Supabase** integration with **SwiftUI** — no authentication required. Build a fully functional news app with image uploads in minutes.
+A minimal iOS 26 starter project demonstrating **Supabase** integration with **SwiftUI** — no authentication required.
 
 Perfect for beginners who want to learn how to connect a SwiftUI app to a real backend using Supabase for CRUD operations and file storage.
 
@@ -16,6 +16,18 @@ This is a simple two-tab iOS app:
 All images (article photos and avatar) are uploaded to Supabase Storage and stored as public URLs in the database.
 
 There is no authentication. This is intentional — the project is designed as a learning tool and starting point, not a production app.
+
+
+## Features
+
+- Fetch, create, and delete articles with images
+- Upload images to Supabase Storage (article photos and avatars)
+- Profile editing with avatar upload
+- Pull-to-refresh on the articles list
+- No authentication required — permissive RLS policies
+- Modern SwiftUI APIs (TabView with Tab, PhotosPicker, AsyncImage, ContentUnavailableView)
+- Fully async/await — no Combine or callbacks
+- Toggle between production (Supabase) and local mock data for development
 
 
 ## Tech Stack
@@ -40,16 +52,20 @@ Select the **Supabase** library when adding the package.
 
 ```
 supabase-swiftui-starter/
-├── SupabaseStarterApp.swift   → App entry point (@main)
-├── SupabaseManager.swift      → Supabase client singleton (add your credentials here)
-├── Models.swift               → Codable data models (Article, Profile)
-├── ContentView.swift          → Main TabView (News + Profile)
-├── ArticleListView.swift      → Fetches, displays, and deletes articles
-├── ArticleRowView.swift       → Single article row (image + title + date)
-├── AddArticleView.swift       → Form to create a new article with image upload
-├── ProfileView.swift          → Profile editor with avatar upload
-├── setup.sql                  → SQL queries to set up your Supabase database
-└── README.md
+├── SupabaseStarterApp.swift      → App entry point (@main)
+├── SupabaseManager.swift         → Supabase client singleton (add your credentials here)
+├── DataSourceManager.swift       → Toggle between Supabase and mock data sources
+├── Models.swift                  → Codable data models (Article, NewArticle, Profile, ProfileUpdate)
+├── MockData.swift                → Local mock data for development and previews
+├── Services.swift                → Service protocols + Supabase and Mock implementations
+├── ContentView.swift             → Main TabView (News + Profile)
+├── ArticleListView.swift         → Fetches, displays, and deletes articles
+├── ArticleRowView.swift          → Single article row (image + title + date)
+├── AddArticleView.swift          → Form to create a new article with image upload
+├── ProfileView.swift             → Profile editor with avatar upload
+├── setup.sql                     → SQL queries to set up your Supabase database
+├── README.md                     → This file
+└── LICENSE                       → MIT License
 ```
 
 
@@ -87,10 +103,6 @@ If you've never used Supabase before, follow every step below. If you already ha
 3. Paste the following SQL and click **Run**:
 
 ```sql
--- ============================================
--- supabase-swiftui-starter — Database Setup
--- ============================================
-
 -- Articles table
 CREATE TABLE articles (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -111,14 +123,11 @@ CREATE TABLE profile (
 INSERT INTO profile (first_name, last_name) VALUES ('', '');
 ```
 
-4. You should see **Success. No rows returned** — that's correct
+4. You should see **Success. No rows returned** — that's correct. It means the tables were created and the profile row was inserted successfully. No data is returned because these are DDL/INSERT statements, not SELECT queries.
 5. Now run a second query to set up the security policies:
 
 ```sql
--- ============================================
 -- Row Level Security — Allow All (No Auth)
--- ============================================
-
 ALTER TABLE articles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE profile ENABLE ROW LEVEL SECURITY;
 
@@ -195,7 +204,8 @@ Your Supabase backend is now ready.
 
 - **Database** — The app reads and writes to PostgreSQL tables (`articles`, `profile`) using the Supabase Swift SDK's query builder with async/await.
 - **Storage** — Images are compressed to JPEG, uploaded to Supabase Storage buckets, and their public URLs are saved in the database. The app uses `AsyncImage` to load them.
-- **No Auth** — RLS is enabled with permissive policies. All operations are allowed without a logged-in user. This keeps the code simple and focused on learning Supabase basics.
+- **No Auth** — RLS is enabled with permissive policies (`USING true`, `WITH CHECK true`). All operations are allowed without a logged-in user. This keeps the code simple and focused on learning Supabase basics.
+- **Data Source Toggle** — Switch between real Supabase data and local mock data via `DataSourceManager`. The app uses protocol-based services (`Services.swift`) for a clean abstraction, so you can develop and preview UI without needing a live Supabase connection.
 
 
 ## Next Steps
@@ -217,13 +227,15 @@ MIT License — see [LICENSE](LICENSE) for details.
 
 Made by [Withnico](https://withnico.com) — iOS Developer and Content Creator.
 
-Feel free to star the repo if you find it useful.
+Also check out [codico.org](https://codico.org).
+
+Star the repo if you find it useful.
 
 
 ---
 
 
-# supabase-swiftui-starter (Italiano)
+# Supabase SwiftUI Starter (Italiano)
 
 Un progetto starter minimale per iOS 26 che dimostra l'integrazione di **Supabase** con **SwiftUI** — senza autenticazione.
 
@@ -240,7 +252,19 @@ L'app ha due sezioni:
 
 Tutte le immagini vengono caricate su Supabase Storage e salvate come URL pubblici nel database.
 
-Non c'è autenticazione. Questa è una scelta intenzionale — il progetto è pensato come strumento di apprendimento, non come app di produzione.
+Non c'è autenticazione. Questa è una scelta intenzionale — il progetto è pensato come strumento di apprendimento e punto di partenza, non come app di produzione.
+
+
+## Funzionalità
+
+- Fetch, creazione e cancellazione di articoli con immagini
+- Upload immagini su Supabase Storage (foto articoli e avatar)
+- Modifica profilo con upload avatar
+- Pull-to-refresh sulla lista articoli
+- Nessuna autenticazione richiesta — policy RLS permissive
+- API SwiftUI moderne (TabView con Tab, PhotosPicker, AsyncImage, ContentUnavailableView)
+- Completamente async/await — nessun uso di Combine o callback
+- Passaggio tra dati di produzione (Supabase) e dati mock locali per lo sviluppo
 
 
 ## Stack Tecnologico
@@ -265,16 +289,20 @@ Seleziona la libreria **Supabase** quando aggiungi il pacchetto.
 
 ```
 supabase-swiftui-starter/
-├── SupabaseStarterApp.swift   → Entry point dell'app (@main)
-├── SupabaseManager.swift      → Singleton Supabase (inserisci qui le tue credenziali)
-├── Models.swift               → Modelli Codable (Article, Profile)
-├── ContentView.swift          → TabView principale (News + Profilo)
-├── ArticleListView.swift      → Fetch, visualizzazione e cancellazione articoli
-├── ArticleRowView.swift       → Riga singola (immagine + titolo + data)
-├── AddArticleView.swift       → Form per creare un articolo con upload immagine
-├── ProfileView.swift          → Editor profilo con upload avatar
-├── setup.sql                  → Query SQL per configurare il database Supabase
-└── README.md
+├── SupabaseStarterApp.swift      → Entry point dell'app (@main)
+├── SupabaseManager.swift         → Singleton Supabase (inserisci qui le tue credenziali)
+├── DataSourceManager.swift       → Passaggio tra sorgente dati Supabase e mock
+├── Models.swift                  → Modelli Codable (Article, NewArticle, Profile, ProfileUpdate)
+├── MockData.swift                → Dati mock locali per sviluppo e anteprime
+├── Services.swift                → Protocolli dei servizi + implementazioni Supabase e Mock
+├── ContentView.swift             → TabView principale (News + Profilo)
+├── ArticleListView.swift         → Fetch, visualizzazione e cancellazione articoli
+├── ArticleRowView.swift          → Riga singola (immagine + titolo + data)
+├── AddArticleView.swift          → Form per creare un articolo con upload immagine
+├── ProfileView.swift             → Editor profilo con upload avatar
+├── setup.sql                     → Query SQL per configurare il database Supabase
+├── README.md                     → Questo file
+└── LICENSE                       → Licenza MIT
 ```
 
 
@@ -312,10 +340,6 @@ Se non hai mai usato Supabase, segui ogni passaggio. Se hai già un account, vai
 3. Incolla il seguente SQL e clicca **Run**:
 
 ```sql
--- ============================================
--- supabase-swiftui-starter — Setup Database
--- ============================================
-
 -- Tabella articoli
 CREATE TABLE articles (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -336,14 +360,11 @@ CREATE TABLE profile (
 INSERT INTO profile (first_name, last_name) VALUES ('', '');
 ```
 
-4. Dovresti vedere **Success. No rows returned** — è corretto
+4. Dovresti vedere **Success. No rows returned** — è corretto. Significa che le tabelle sono state create e la riga del profilo è stata inserita con successo. Non vengono restituiti dati perché si tratta di istruzioni DDL/INSERT, non di query SELECT.
 5. Ora esegui una seconda query per le policy di sicurezza:
 
 ```sql
--- ============================================
 -- Row Level Security — Permetti Tutto (No Auth)
--- ============================================
-
 ALTER TABLE articles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE profile ENABLE ROW LEVEL SECURITY;
 
@@ -420,7 +441,8 @@ Il tuo backend Supabase è pronto.
 
 - **Database** — L'app legge e scrive su tabelle PostgreSQL (`articles`, `profile`) usando il query builder del Supabase Swift SDK con async/await.
 - **Storage** — Le immagini vengono compresse in JPEG, caricate sui bucket di Supabase Storage, e i loro URL pubblici vengono salvati nel database. L'app usa `AsyncImage` per caricarle.
-- **Nessuna Auth** — La RLS è abilitata con policy permissive. Tutte le operazioni sono consentite senza un utente loggato. Questo mantiene il codice semplice e focalizzato sull'apprendimento delle basi di Supabase.
+- **Nessuna Auth** — La RLS è abilitata con policy permissive (`USING true`, `WITH CHECK true`). Tutte le operazioni sono consentite senza un utente loggato. Questo mantiene il codice semplice e focalizzato sull'apprendimento delle basi di Supabase.
+- **Cambio Sorgente Dati** — Passa tra dati reali di Supabase e dati mock locali tramite `DataSourceManager`. L'app usa servizi basati su protocolli (`Services.swift`) per un'astrazione pulita, così puoi sviluppare e visualizzare l'interfaccia senza bisogno di una connessione Supabase attiva.
 
 
 ## Prossimi Passi
@@ -441,5 +463,7 @@ MIT License — vedi [LICENSE](LICENSE) per i dettagli.
 ## Autore
 
 Creato da [Withnico](https://withnico.com) — iOS Developer e Content Creator.
+
+Visita anche [codico.org](https://codico.org).
 
 Se il progetto ti è utile, lascia una stella al repo.
