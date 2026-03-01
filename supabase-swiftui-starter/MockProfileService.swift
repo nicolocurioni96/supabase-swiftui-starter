@@ -17,11 +17,20 @@ class MockProfileService: ProfileServiceProtocol {
     }
 
     func updateProfile(_ profile: Profile, firstName: String, lastName: String, avatarImage: UIImage?) async throws {
+        var avatarUrl = profile.avatarUrl
+
+        if let avatarImage, let data = avatarImage.jpegData(compressionQuality: 0.8) {
+            let fileName = "avatar-\(profile.id.uuidString).jpg"
+            let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
+            try data.write(to: fileURL)
+            avatarUrl = fileURL.absoluteString
+        }
+
         self.profile = Profile(
             id: profile.id,
             firstName: firstName,
             lastName: lastName,
-            avatarUrl: profile.avatarUrl
+            avatarUrl: avatarUrl
         )
     }
 }

@@ -21,10 +21,19 @@ class MockArticleService: ArticleServiceProtocol {
     }
 
     func createArticle(title: String, image: UIImage?) async throws {
+        var imageUrl: String?
+
+        if let image, let data = image.jpegData(compressionQuality: 0.8) {
+            let fileName = "\(UUID().uuidString).jpg"
+            let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
+            try data.write(to: fileURL)
+            imageUrl = fileURL.absoluteString
+        }
+
         let article = Article(
             id: UUID(),
             title: title,
-            imageUrl: nil,
+            imageUrl: imageUrl,
             createdAt: Date()
         )
         articles.insert(article, at: 0)
