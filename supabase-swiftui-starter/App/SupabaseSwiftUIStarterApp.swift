@@ -1,5 +1,5 @@
 //
-//  SupabaseStarterApp.swift
+//  SupabaseSwiftUIStarterApp.swift
 //  supabase-swiftui-starter
 //
 //  Created by Nicolò Curioni 🔸
@@ -9,12 +9,12 @@
 import SwiftUI
 
 @main
-struct SupabaseStarterApp: App {
+struct SupabaseSwiftUIStarterApp: App {
     @State private var dataSourceManager = DataSourceManager()
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainTabView()
                 .environment(dataSourceManager)
         }
     }

@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  MainTabView.swift
 //  supabase-swiftui-starter
 //
 //  Created by Nicolò Curioni 🔸
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct MainTabView: View {
     var body: some View {
         TabView {
             Tab("News", systemImage: "newspaper") {
@@ -23,6 +23,6 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    MainTabView()
         .environment(DataSourceManager())
 }
