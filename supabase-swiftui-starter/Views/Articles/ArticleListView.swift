@@ -33,9 +33,14 @@ struct ArticleListView: View {
                 } else {
                     List {
                         ForEach(articles) { article in
-                            ArticleRowView(article: article)
+                            NavigationLink(value: article) {
+                                ArticleRowView(article: article)
+                            }
                         }
                         .onDelete(perform: deleteArticles)
+                    }
+                    .navigationDestination(for: Article.self) { article in
+                        ArticleDetailView(article: article)
                     }
                     .refreshable {
                         await fetchArticles()

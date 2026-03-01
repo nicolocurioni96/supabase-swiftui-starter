@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Article: Codable, Identifiable {
+struct Article: Codable, Identifiable, Hashable {
     let id: UUID
     let title: String
     let imageUrl: String?
