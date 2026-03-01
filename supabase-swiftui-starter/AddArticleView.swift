@@ -7,11 +7,11 @@
 //
 
 import PhotosUI
-import Supabase
 import SwiftUI
 
 struct AddArticleView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(DataSourceManager.self) private var dataSourceManager
 
     @State private var title = ""
     @State private var selectedPhoto: PhotosPickerItem?
@@ -20,6 +20,10 @@ struct AddArticleView: View {
     @State private var errorMessage: String?
 
     var onSave: () -> Void
+
+    private var service: any ArticleServiceProtocol {
+        dataSourceManager.articleService()
+    }
 
     var body: some View {
         NavigationStack {
@@ -84,33 +88,16 @@ struct AddArticleView: View {
         defer { isSaving = false }
 
         do {
-            var imageUrl: String?
-
-            if let selectedImage, let data = selectedImage.jpegData(compressionQuality: 0.8) {
-                let fileName = "\(UUID().uuidString).jpg"
-
-                try await SupabaseManager.client.storage
-                    .from("article-images")
-                    .upload(fileName, data: data, options: .init(contentType: "image/jpeg"))
-
-                let publicURL = try SupabaseManager.client.storage
-                    .from("article-images")
-                    .getPublicURL(path: fileName)
-
-                imageUrl = publicURL.absoluteString
-            }
-
-            let newArticle = NewArticle(title: title, imageUrl: imageUrl)
-
-            try await SupabaseManager.client
-                .from("articles")
-                .insert(newArticle)
-                .execute()
-
+            try await service.createArticle(title: title, image: selectedImage)
             onSave()
             dismiss()
         } catch {
             errorMessage = error.localizedDescription
         }
     }
+}
+
+#Preview {
+    AddArticleView { }
+        .environment(DataSourceManager())
 }

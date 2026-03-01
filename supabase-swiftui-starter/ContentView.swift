@@ -15,9 +15,14 @@ struct ContentView: View {
                 ArticleListView()
             }
 
-            Tab("Profile", systemImage: "person.circle") {
-                ProfileView()
+            Tab("Settings", systemImage: "gear") {
+                SettingsView()
             }
         }
     }
+}
+
+#Preview {
+    ContentView()
+        .environment(DataSourceManager())
 }

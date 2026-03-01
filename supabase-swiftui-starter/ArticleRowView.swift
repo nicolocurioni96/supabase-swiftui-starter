@@ -47,3 +47,7 @@ struct ArticleRowView: View {
         .padding(.vertical, 4)
     }
 }
+
+#Preview {
+    ArticleRowView(article: MockData.articles[0])
+}

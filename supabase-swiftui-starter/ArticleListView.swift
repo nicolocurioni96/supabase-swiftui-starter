@@ -6,14 +6,18 @@
 //  Founder of withnico.com and codico.org
 //
 
-import Supabase
 import SwiftUI
 
 struct ArticleListView: View {
+    @Environment(DataSourceManager.self) private var dataSourceManager
     @State private var articles: [Article] = []
     @State private var isLoading = false
     @State private var showAddArticle = false
     @State private var errorMessage: String?
+
+    private var service: any ArticleServiceProtocol {
+        dataSourceManager.articleService()
+    }
 
     var body: some View {
         NavigationStack {
@@ -56,6 +60,9 @@ struct ArticleListView: View {
             .task {
                 await fetchArticles()
             }
+            .onChange(of: dataSourceManager.dataSource) {
+                Task { await fetchArticles() }
+            }
             .alert("Error", isPresented: .init(
                 get: { errorMessage != nil },
                 set: { if !$0 { errorMessage = nil } }
@@ -72,12 +79,7 @@ struct ArticleListView: View {
         defer { isLoading = false }
 
         do {
-            articles = try await SupabaseManager.client
-                .from("articles")
-                .select()
-                .order("created_at", ascending: false)
-                .execute()
-                .value
+            articles = try await service.fetchArticles()
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -88,19 +90,7 @@ struct ArticleListView: View {
             do {
                 for index in offsets {
                     let article = articles[index]
-
-                    if let imageUrl = article.imageUrl,
-                       let fileName = URL(string: imageUrl)?.lastPathComponent {
-                        try await SupabaseManager.client.storage
-                            .from("article-images")
-                            .remove(paths: [fileName])
-                    }
-
-                    try await SupabaseManager.client
-                        .from("articles")
-                        .delete()
-                        .eq("id", value: article.id.uuidString)
-                        .execute()
+                    try await service.deleteArticle(article)
                 }
 
                 await fetchArticles()
@@ -109,4 +99,9 @@ struct ArticleListView: View {
             }
         }
     }
+}
+
+#Preview {
+    ArticleListView()
+        .environment(DataSourceManager())
 }
