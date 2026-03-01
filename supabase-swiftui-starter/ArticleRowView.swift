@@ -2,7 +2,7 @@
 //  ArticleRowView.swift
 //  supabase-swiftui-starter
 //
-//  Created by Nicolo Curioni
+//  Created by Nicolò Curioni 🔸
 //  Founder of withnico.com and codico.org
 //
 
