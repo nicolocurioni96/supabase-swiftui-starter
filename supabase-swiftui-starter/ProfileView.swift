@@ -6,8 +6,9 @@
 //  Founder of withnico.com and codico.org
 //
 
-import SwiftUI
 import PhotosUI
+import Supabase
+import SwiftUI
 
 struct ProfileView: View {
     @State private var profile: Profile?
