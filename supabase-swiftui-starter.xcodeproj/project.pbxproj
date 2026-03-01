@@ -6,6 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A199AE362F543CE1007EBB6C /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = A199AE352F543CE1007EBB6C /* Auth */; };
+		A199AE382F543CE1007EBB6C /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = A199AE372F543CE1007EBB6C /* PostgREST */; };
+		A199AE3A2F543CE1007EBB6C /* Realtime in Frameworks */ = {isa = PBXBuildFile; productRef = A199AE392F543CE1007EBB6C /* Realtime */; };
+		A199AE3C2F543CE1007EBB6C /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = A199AE3B2F543CE1007EBB6C /* Storage */; };
+		A199AE3E2F543CE1007EBB6C /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = A199AE3D2F543CE1007EBB6C /* Supabase */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		A113B1392F51D58600A551A0 /* supabase-swiftui-starter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "supabase-swiftui-starter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +31,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A199AE3E2F543CE1007EBB6C /* Supabase in Frameworks */,
+				A199AE3C2F543CE1007EBB6C /* Storage in Frameworks */,
+				A199AE3A2F543CE1007EBB6C /* Realtime in Frameworks */,
+				A199AE382F543CE1007EBB6C /* PostgREST in Frameworks */,
+				A199AE362F543CE1007EBB6C /* Auth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +78,11 @@
 			);
 			name = "supabase-swiftui-starter";
 			packageProductDependencies = (
+				A199AE352F543CE1007EBB6C /* Auth */,
+				A199AE372F543CE1007EBB6C /* PostgREST */,
+				A199AE392F543CE1007EBB6C /* Realtime */,
+				A199AE3B2F543CE1007EBB6C /* Storage */,
+				A199AE3D2F543CE1007EBB6C /* Supabase */,
 			);
 			productName = "supabase-swiftui-starter";
 			productReference = A113B1392F51D58600A551A0 /* supabase-swiftui-starter.app */;
@@ -94,6 +112,9 @@
 			);
 			mainGroup = A113B1302F51D58600A551A0;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				A199AE342F543CE1007EBB6C /* XCRemoteSwiftPackageReference "supabase-swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A113B13A2F51D58600A551A0 /* Products */;
 			projectDirPath = "";
@@ -340,6 +361,45 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A199AE342F543CE1007EBB6C /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A199AE352F543CE1007EBB6C /* Auth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A199AE342F543CE1007EBB6C /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Auth;
+		};
+		A199AE372F543CE1007EBB6C /* PostgREST */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A199AE342F543CE1007EBB6C /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = PostgREST;
+		};
+		A199AE392F543CE1007EBB6C /* Realtime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A199AE342F543CE1007EBB6C /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Realtime;
+		};
+		A199AE3B2F543CE1007EBB6C /* Storage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A199AE342F543CE1007EBB6C /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Storage;
+		};
+		A199AE3D2F543CE1007EBB6C /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A199AE342F543CE1007EBB6C /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A113B1312F51D58600A551A0 /* Project object */;
 }

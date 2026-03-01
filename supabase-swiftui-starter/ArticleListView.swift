@@ -6,6 +6,7 @@
 //  Founder of withnico.com and codico.org
 //
 
+import Supabase
 import SwiftUI
 
 struct ArticleListView: View {
